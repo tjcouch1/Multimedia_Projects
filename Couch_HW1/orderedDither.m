@@ -3,7 +3,7 @@
 % orderedDither(image)
 % image: the rgb image matrix to dither
 % Note: the image must be in rgb format
-% returns dithered image
+% returns dithered image in rgb format
 % 
 % TJ Couch
 % Homework 1
@@ -31,11 +31,16 @@ for i = 1:rows
         
         %set pixel to white if appropriate
         if val >= ditherMatrix(mod(i - 1, n) + 1, mod(j - 1, n) + 1)
-            ditheredImg(i, j) = 1;
+            ditheredImg(i, j) = 255;
         end
     end
 end
 
-imshow(ditheredImg)
+%convert double matrix into 3d uint8 rgb matrix
+intImg = uint8(ditheredImg);
+rgbImg = zeros(rows, cols, 3);
+for i = 1:3
+    rgbImg(:, :, i) = intImg(:, :);
+end
 
-f = ditheredImg;
+f = rgbImg;

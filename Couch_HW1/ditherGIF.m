@@ -6,10 +6,8 @@
 % CS 443 Multimedia
 % 1/29/19
 
-outImageName = 'dithered_animation.gif';
-
 %apply dither to each of 50 images
-for i = 1:1%50
+for i = 1:50
     fileName = sprintf("homework1_animation_frames/frame_%d_delay-0.1s.gif", i);
     
     %read image and convert from byte indexed to rgb
@@ -22,10 +20,15 @@ for i = 1:1%50
     %stitch image into the gif
     %format image into byte indexed image
     [indexedImg, colorMap] = rgb2ind(ditheredImg,256);
-    %write indexed image to the file
-    if n == 1
-      imwrite(indexedImg, colorMap, outImageName, 'gif', 'Loopcount', inf);
+    
+    %write indexed image to its own file
+    writeName = sprintf("homework1_dithered_frames/frame_%d_delay-0.1s.gif", i);
+    imwrite(indexedImg, colorMap, writeName, 'gif');
+    
+    %write indexed image to the gif
+    if i == 1
+      imwrite(indexedImg, colorMap, 'homework1_dithered_frames/dithered_animation.gif', 'gif', 'DelayTime',0.1, 'Loopcount', inf);
     else
-      imwrite(indexedImg, colorMap, outImageName, 'gif', 'WriteMode', 'append');
+      imwrite(indexedImg, colorMap, 'homework1_dithered_frames/dithered_animation.gif', 'gif', 'DelayTime',0.1, 'WriteMode', 'append');
     end
 end
