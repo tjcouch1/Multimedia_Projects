@@ -1,6 +1,7 @@
 % orderedDither.m - ordered dithers the file provided and writes it with _d
 % appended to the name
-% Parameter 1: String filename of image to dither
+% orderedDither(fileName)
+% fileName: String path to image to dither
 % returns true if file written, false otherwise
 % 
 % TJ Couch
@@ -8,12 +9,12 @@
 % CS 443 Multimedia
 % 1/24/19
 
-function y = orderedDither(fileName)
+function f = orderedDither(fileName)
 
 sourceImg = imread(fileName);
 imshow(sourceImg)
 
-y = true;
+f = true;
 
 %imread()
 %imshow()
