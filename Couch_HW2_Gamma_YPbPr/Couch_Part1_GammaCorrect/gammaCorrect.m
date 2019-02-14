@@ -10,37 +10,13 @@
 % CS 443 Multimedia
 % 2/13/19
 
-function f = orderedDither(sourceImg, gamma)
+function f = gammaCorrect(sourceImg, gamma)
 
-%set up dither matrix
-n = 4;%size of dither matrix - 4x4
-ditherMatrix = (1/16) .* [0 8 2 10; 12 4 14 6; 3 11 1 9; 15 7 13 5];
+sprintf("original %d", sourceImg(1, 1, 1))
 
-%convert to grayscale
-grayImg = rgb2gray(sourceImg);
+destImg = double(sourceImg);
+destImg = destImg .^ (1 / gamma);
 
-%make new image matrix of the proper size
-[rows, cols] = size(grayImg)
-ditheredImg = zeros(rows, cols);
+sprintf("gamma correct %d", destImg(1, 1, 1))
 
-%loop through each pixel and replace with ordered dithered pixel
-for i = 1:rows
-    for j = 1:cols
-        %get value of pixel
-        val = grayImg(i, j);
-        
-        %set pixel to white if appropriate
-        if val >= ditherMatrix(mod(i - 1, n) + 1, mod(j - 1, n) + 1)
-            ditheredImg(i, j) = 255;
-        end
-    end
-end
-
-%convert double matrix into 3d uint8 rgb matrix
-intImg = uint8(ditheredImg);
-rgbImg = zeros(rows, cols, 3);
-for i = 1:3
-    rgbImg(:, :, i) = intImg(:, :);
-end
-
-f = rgbImg;
+f = uint8(destImg);

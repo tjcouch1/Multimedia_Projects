@@ -5,29 +5,23 @@
 % CS 443 Multimedia
 % 2/13/19
 
+%close any open figures
+close all
+
 %apply dither to each of 50 images
-for i = 1:50
-    fileName = sprintf("homework1_animation_frames/frame_%d_delay-0.1s.gif", i);
+for i = 1:3
+    fileName = sprintf("couch_part1_input_image%d.jpg", i);
     
-    %read image and convert from byte indexed to rgb
-    [indexedSrcImg, colorMap] = imread(fileName, "Frames", 1);
-    sourceImg = ind2rgb(indexedSrcImg, colorMap);
+    %read rgb image
+    sourceImg = imread(fileName);
     
     %apply dither to image
-    ditheredImg = orderedDither(sourceImg);
+    gammaImg = gammaCorrect(sourceImg, 1.1);
     
-    %stitch image into the gif
-    %format image into byte indexed image
-    [indexedImg, colorMap] = rgb2ind(ditheredImg,256);
+    %show image
+    imshow(gammaImg);
     
     %write indexed image to its own file
-    writeName = sprintf("homework1_dithered_frames/frame_%d_delay-0.1s.gif", i);
-    imwrite(indexedImg, colorMap, writeName, 'gif');
-    
-    %write indexed image to the gif
-    if i == 1
-      imwrite(indexedImg, colorMap, 'homework1_dithered_frames/dithered_animation.gif', 'gif', 'DelayTime',0.1, 'Loopcount', inf);
-    else
-      imwrite(indexedImg, colorMap, 'homework1_dithered_frames/dithered_animation.gif', 'gif', 'DelayTime',0.1, 'WriteMode', 'append');
-    end
+    writeName = sprintf("couch_part1_output_image%d.jpg", i);
+    imwrite(gammaImg, writeName);
 end
