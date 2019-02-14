@@ -12,11 +12,11 @@
 
 function f = gammaCorrect(sourceImg, gamma)
 
-sprintf("original %d", sourceImg(1, 1, 1))
-
+%convert to double
 destImg = double(sourceImg);
-destImg = destImg .^ (1 / gamma);
 
-sprintf("gamma correct %d", destImg(1, 1, 1))
+%normalize and gamma correct
+destImg = (destImg ./ 255) .^ (1 / gamma);
 
-f = uint8(destImg);
+%scale back and return
+f = uint8(destImg .* 255);
