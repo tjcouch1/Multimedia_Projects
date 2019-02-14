@@ -16,12 +16,16 @@ for i = 1:3
     sourceImg = imread(fileName);
     
     %convert image
-    yPbPrImg = convertToYCbCr(sourceImg);
+    [yCbCrImg, yImg] = convertToYCbCr(sourceImg);
     
     %show image
     imshow(yCbCrImg);
     
-    %write image to its own file
-    writeName = sprintf("couch_part2_output_image%d.jpg", i);
+    %write YCbCr to its own file
+    writeName = sprintf("couch_part2_output_image%d_YCbCr.jpg", i);
     imwrite(yCbCrImg, writeName);
+    
+    %write Y to its own file
+    writeName = sprintf("couch_part2_output_image%d_Y.jpg", i);
+    imwrite(yImg, writeName);
 end
