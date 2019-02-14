@@ -5,9 +5,6 @@
 % CS 443 Multimedia
 % 2/13/19
 
-%close any open figures
-close all
-
 %apply gamma correct to each of 3 images
 for i = 1:3
     fileName = sprintf("couch_part1_input_image%d.jpg", i);
@@ -18,7 +15,7 @@ for i = 1:3
     %apply gamma correct to image
     gammaImg = gammaCorrect(sourceImg, 1.1);
     
-    %write indexed image to its own file
+    %write image to its own file
     writeName = sprintf("couch_part1_output_image%d.jpg", i);
     imwrite(gammaImg, writeName);
 end
