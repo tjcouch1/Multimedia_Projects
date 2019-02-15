@@ -9,7 +9,7 @@
 % CS 443 Multimedia
 % 2/13/19
 
-function [yCbCrImg, yImg] = convertToYCbCr(sourceImg)
+function [yCbCrImg, yImg, cbImage, crImage] = convertToYCbCr(sourceImg)
 
 %set up yCbCr conversion matrix
 yCbCrMatrix = [.299 .587 .114;
@@ -23,15 +23,18 @@ imSize = size(sourceImg);
 sourceImg = double(sourceImg);
 yCbCrImg = zeros(imSize);
 
+%for every pixel, multiply by conversion matrix and add the matrix
+addMatrix = [0; .5; .5];
 for i = 1:imSize(1)
     for j = 1:imSize(2)
-        yCbCrImg(i, j, :) = yCbCrMatrix * (transform3to2(sourceImg(i, j, :)) ./ 255) + [0; .5; .5];
+        yCbCrImg(i, j, :) = yCbCrMatrix * (transform3to2(sourceImg(i, j, :)) ./ 255) + addMatrix;
     end
 end
 
 %create luminous image
 yImg = zeros(imSize);
 
+%for every pixel, copy y into r, g, and b
 for i = 1:imSize(1)
     for j = 1:imSize(2)
         y = yCbCrImg(i, j, 1);
@@ -41,16 +44,37 @@ for i = 1:imSize(1)
     end
 end
 
-%create Cr image
-crImage = zeros(imSize);
+%create Cb image
+cbImage = uint8(zeros(imSize));
 
+yCbCrImg(1, 1, 2);
+cb = yCbCrImg(1, 1, 2) * 255;
+antiSat = uint8(254 - (cb - 128) * 2);
+%cbImage(1, 1, :) = [antiSat, antiSat, 255]
+
+%for every pixel, replace with various saturations of yellow or blue
 for i = 1:imSize(1)
     for j = 1:imSize(2)
-        y = yCbCrImg(i, j, 1);
-        for k = 1:imSize(3)
-            yImg(i, j, k) = y;
-        end
+        cb = yCbCrImg(i, j, 2) * 255;
+        
+        %Cb - yellow 0-127, blue 128-255. Further from 127 = higher sat
+        cbImage(i, j, 1) = 255 - cb;
+        cbImage(i, j, 2) = 255 - cb;
+        cbImage(i, j, 3) = cb;
     end
 end
 
-%f = [yCbCrImg, yImg];
+%create Cb image
+crImage = uint8(zeros(imSize));
+
+%for every pixel, replace with various saturations of cyan or red
+for i = 1:imSize(1)
+    for j = 1:imSize(2)
+        cr = yCbCrImg(i, j, 3) * 255;
+        
+        %Cr - cyan 0-127, red 128-255. Further from 127 = higher sat
+        crImage(i, j, 1) = cr;
+        crImage(i, j, 2) = 255 - cr;
+        crImage(i, j, 3) = 255 - cr;
+    end
+end
