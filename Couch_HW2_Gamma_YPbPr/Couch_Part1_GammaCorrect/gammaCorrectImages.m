@@ -13,7 +13,7 @@ for i = 1:3
     sourceImg = imread(fileName);
     
     %apply gamma correct to image
-    gammaImg = gammaCorrect(sourceImg, 1.1);
+    gammaImg = gammaCorrect(sourceImg, 1.2);
     
     %write image to its own file
     writeName = sprintf("couch_part1_output_image%d.jpg", i);

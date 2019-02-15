@@ -5,9 +5,6 @@
 % CS 443 Multimedia
 % 2/13/19
 
-%close any open figures
-close all
-
 %convert each of 3 images
 for i = 1:3
     fileName = sprintf("couch_part2_input_image%d.jpg", i);
@@ -17,9 +14,6 @@ for i = 1:3
     
     %convert image
     [yCbCrImg, yImg, cbImg, crImg] = convertToYCbCr(sourceImg);
-    
-    %show image
-    imshow(crImg);
     
     %write YCbCr to its own file
     writeName = sprintf("couch_part2_output_image%d_YCbCr.jpg", i);
