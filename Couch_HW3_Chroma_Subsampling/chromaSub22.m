@@ -1,15 +1,15 @@
-% convertToYCbCr.m - converts the image matrix provided from rgb to YPbPr
-% convertToYCbCr(image)
+% chromaSub22.m - applies chroma subsampling 4:2:2 to the image
+% chromaSub22(image)
 % image: the rgb image matrix to convert
 % Note: the image must be in rgb format
-% returns converted image in YCbCr format
+% returns rgb image, Cb gray image, and Cr gray image
 % 
 % TJ Couch
-% Homework 1
+% Homework 3
 % CS 443 Multimedia
-% 2/13/19
+% 3/10/19
 
-function [yCbCrImg, yImg, cbImage, crImage] = convertToYCbCr(sourceImg)
+function [yCbCrImg, yImg, cbImage, crImage] = chromaSub22(sourceImg)
 
 %set up yCbCr conversion matrix
 yCbCrMatrix = [.299 .587 .114;

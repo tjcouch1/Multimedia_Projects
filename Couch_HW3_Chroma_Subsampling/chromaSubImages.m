@@ -1,33 +1,30 @@
-% script convertImagesToYCbCr - converts the three images in this directory from rgb to YCbCr
+% script chromaSubImages - applies chroma subsampling to the images in the
+% directory
 % 
 % TJ Couch
-% Homework 1
+% Homework 3
 % CS 443 Multimedia
-% 2/13/19
+% 3/10/19
 
-%convert each of 3 images
-for i = 1:3
-    fileName = sprintf("couch_part2_input_image%d.jpg", i);
+%convert each of 3 images to 4:1:1
+for i = 1:1
+    fileName = sprintf("couch_part3_input_image%d.jpg", i);
     
-    %read rgb image
+    %read original rgb image
     sourceImg = imread(fileName);
     
     %convert image
-    [yCbCrImg, yImg, cbImg, crImg] = convertToYCbCr(sourceImg);
+    [rgbImg, cbImg, crImg] = chromaSub11(sourceImg);
     
-    %write YCbCr to its own file
-    writeName = sprintf("couch_part2_output_image%d_YCbCr.jpg", i);
-    imwrite(yCbCrImg, writeName);
+    %write rgb to its own file
+    writeName = sprintf("couch_part3_output_image%d_rgb.jpg", i);
+    imwrite(rgbImg, writeName);
     
-    %write Y to its own file
-    writeName = sprintf("couch_part2_output_image%d_Y.jpg", i);
-    imwrite(yImg, writeName);
-    
-    %write Cb to its own file
-    writeName = sprintf("couch_part2_output_image%d_Cb.jpg", i);
+    %write Cb gray to its own file
+    writeName = sprintf("couch_part3_output_image%d_CbGray.jpg", i);
     imwrite(cbImg, writeName);
     
-    %write Cr to its own file
-    writeName = sprintf("couch_part2_output_image%d_Cr.jpg", i);
+    %write Cr gray to its own file
+    writeName = sprintf("couch_part3_output_image%d_CrGray.jpg", i);
     imwrite(crImg, writeName);
 end
