@@ -9,72 +9,57 @@
 % CS 443 Multimedia
 % 3/10/19
 
-function [yCbCrImg, yImg, cbImage, crImage] = chromaSub22(sourceImg)
-
-%set up yCbCr conversion matrix
-yCbCrMatrix = [.299 .587 .114;
-                -.168736 -.331264 .5;
-                .5 -.418688 -.081312];
+function [rgbImage, cbImage, crImage] = chromaSub22(sourceImg)
 
 %get image size
 imSize = size(sourceImg);
 
 %convert to YCbCr
-sourceImg = double(sourceImg);
-yCbCrImg = zeros(imSize);
+yCbCrImg = convertToYCbCr(sourceImg);
 
-%for every pixel, multiply by conversion matrix and add the matrix
-addMatrix = [0; .5; .5];
+%apply 4:2:2 subsampling
+yccSubImg = zeros(imSize);
 for i = 1:imSize(1)
     for j = 1:imSize(2)
-        yCbCrImg(i, j, :) = yCbCrMatrix * (transform3to2(sourceImg(i, j, :)) ./ 255) + addMatrix;
-    end
-end
-
-%create luminous image
-yImg = zeros(imSize);
-
-%for every pixel, copy y into r, g, and b
-for i = 1:imSize(1)
-    for j = 1:imSize(2)
-        y = yCbCrImg(i, j, 1);
-        for k = 1:imSize(3)
-            yImg(i, j, k) = y;
+        %copy Cb and Cr as the pattern specifies by row and by column
+        %1st and 2nd row - get first in group of two columns
+        %copy y
+        yccSubImg(i, j, 1) = yCbCrImg(i, j, 1);
+        %subsample Cb and Cr
+        yccSubImg(i, j, 2) = yCbCrImg(floor((i - 1) / 2) * 2 + 1, j, 2);
+        yccSubImg(i, j, 3) = yCbCrImg(floor((i - 1) / 2) * 2 + 1, j, 3);
+        if (i < 15 && j < 2)
+            i
+            floor((i - 1) / 4) * 4 + 1
         end
     end
 end
 
-%create Cb image
-cbImage = uint8(zeros(imSize));
+%create subsampled rgb image
+rgbImage = ycbcr2rgb(yccSubImg);
 
-yCbCrImg(1, 1, 2);
-cb = yCbCrImg(1, 1, 2) * 255;
-antiSat = uint8(254 - (cb - 128) * 2);
-%cbImage(1, 1, :) = [antiSat, antiSat, 255]
+%create Cb gray image
+cbImage = zeros(imSize);
 
-%for every pixel, replace with various saturations of yellow or blue
+%for every pixel, copy cb into r, g, and b
 for i = 1:imSize(1)
     for j = 1:imSize(2)
-        cb = yCbCrImg(i, j, 2) * 255;
-        
-        %Cb - yellow 0-127, blue 128-255. Further from 127 = higher sat
-        cbImage(i, j, 1) = 255 - cb;
-        cbImage(i, j, 2) = 255 - cb;
-        cbImage(i, j, 3) = cb;
+        cb = yccSubImg(i, j, 2);
+        for k = 1:imSize(3)
+            cbImage(i, j, k) = cb;
+        end
     end
 end
 
-%create Cb image
-crImage = uint8(zeros(imSize));
+%create Cr gray image
+crImage = zeros(imSize);
 
-%for every pixel, replace with various saturations of cyan or red
+%for every pixel, copy cr into r, g, and b
 for i = 1:imSize(1)
     for j = 1:imSize(2)
-        cr = yCbCrImg(i, j, 3) * 255;
-        
-        %Cr - cyan 0-127, red 128-255. Further from 127 = higher sat
-        crImage(i, j, 1) = cr;
-        crImage(i, j, 2) = 255 - cr;
-        crImage(i, j, 3) = 255 - cr;
+        cr = yccSubImg(i, j, 3);
+        for k = 1:imSize(3)
+            crImage(i, j, k) = cr;
+        end
     end
 end
