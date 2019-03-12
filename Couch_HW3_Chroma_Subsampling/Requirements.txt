@@ -13,3 +13,9 @@ Turn in:
 	Code
 	All output - 2 out RGB, 2 Cb gray, 2 Cr gray
 	Report
+
+
+Left to do:
+Write convertFromYCbCr
+Run on all 3 images
+Write report

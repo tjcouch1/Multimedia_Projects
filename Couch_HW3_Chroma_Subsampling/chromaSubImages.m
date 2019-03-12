@@ -14,7 +14,7 @@ for i = 1:1
     sourceImg = imread(fileName);
     
     %convert image to 4:1:1
-    [rgbImg, cbImg, crImg] = chromaSub11(sourceImg);
+    [rgbImg, cbImg, crImg] = chromaSub(sourceImg, 1, 1);
     
     %write rgb to its own file
     writeName = sprintf("couch_part3_output_image%d_rgb_411.png", i);
@@ -29,7 +29,7 @@ for i = 1:1
     imwrite(crImg, writeName);
     
     %convert image to 4:2:2
-    [rgbImg, cbImg, crImg] = chromaSub22(sourceImg);
+    [rgbImg, cbImg, crImg] = chromaSub(sourceImg, 2, 2);
     
     %write rgb to its own file
     writeName = sprintf("couch_part3_output_image%d_rgb_422.png", i);
