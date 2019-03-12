@@ -17,29 +17,29 @@ for i = 1:1
     [rgbImg, cbImg, crImg] = chromaSub11(sourceImg);
     
     %write rgb to its own file
-    writeName = sprintf("couch_part3_output_image%d_rgb_411.jpg", i);
+    writeName = sprintf("couch_part3_output_image%d_rgb_411.png", i);
     imwrite(rgbImg, writeName);
     
     %write Cb gray to its own file
-    writeName = sprintf("couch_part3_output_image%d_CbGray_411.jpg", i);
+    writeName = sprintf("couch_part3_output_image%d_CbGray_411.png", i);
     imwrite(cbImg, writeName);
     
     %write Cr gray to its own file
-    writeName = sprintf("couch_part3_output_image%d_CrGray_411.jpg", i);
+    writeName = sprintf("couch_part3_output_image%d_CrGray_411.png", i);
     imwrite(crImg, writeName);
     
     %convert image to 4:2:2
     [rgbImg, cbImg, crImg] = chromaSub22(sourceImg);
     
     %write rgb to its own file
-    writeName = sprintf("couch_part3_output_image%d_rgb_422.jpg", i);
+    writeName = sprintf("couch_part3_output_image%d_rgb_422.png", i);
     imwrite(rgbImg, writeName);
     
     %write Cb gray to its own file
-    writeName = sprintf("couch_part3_output_image%d_CbGray_422.jpg", i);
+    writeName = sprintf("couch_part3_output_image%d_CbGray_422.png", i);
     imwrite(cbImg, writeName);
     
     %write Cr gray to its own file
-    writeName = sprintf("couch_part3_output_image%d_CrGray_422.jpg", i);
+    writeName = sprintf("couch_part3_output_image%d_CrGray_422.png", i);
     imwrite(crImg, writeName);
 end

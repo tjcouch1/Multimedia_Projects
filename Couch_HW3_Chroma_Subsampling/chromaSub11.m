@@ -26,12 +26,8 @@ for i = 1:imSize(1)
         %copy y
         yccSubImg(i, j, 1) = yCbCrImg(i, j, 1);
         %subsample Cb and Cr
-        yccSubImg(i, j, 2) = yCbCrImg(floor((i - 1) / 4) * 4 + 1, j, 2);
-        yccSubImg(i, j, 3) = yCbCrImg(floor((i - 1) / 4) * 4 + 1, j, 3);
-        if (i < 15 && j < 2)
-            i
-            floor((i - 1) / 4) * 4 + 1
-        end
+        yccSubImg(i, j, 2) = yCbCrImg(i, floor((j - 1) / 4) * 4 + 1, 2);
+        yccSubImg(i, j, 3) = yCbCrImg(i, floor((j - 1) / 4) * 4 + 1, 3);
     end
 end
 
