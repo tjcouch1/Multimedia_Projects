@@ -16,6 +16,4 @@ Turn in:
 
 
 Left to do:
-Write convertFromYCbCr
-Run on all 3 images
 Write report

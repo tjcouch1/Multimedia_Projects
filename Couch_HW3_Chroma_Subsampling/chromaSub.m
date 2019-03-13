@@ -46,4 +46,4 @@ for i = 1:imSize(1)
 end
 
 %create subsampled rgb image
-rgbImage = ycbcr2rgb(yccSubImg);
+rgbImage = convertFromYCbCr(yccSubImg);

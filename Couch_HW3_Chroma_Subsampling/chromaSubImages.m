@@ -7,7 +7,7 @@
 % 3/10/19
 
 %convert each of 3 images
-for i = 1:1
+for i = 1:3
     fileName = sprintf("couch_part3_input_image%d.jpg", i);
     
     %read original rgb image
