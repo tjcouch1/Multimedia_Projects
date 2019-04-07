@@ -5,8 +5,11 @@
 % CS 443 Multimedia
 % 4/7/19
 
+%close all open graphs
+close all
+
 audioNames = ["dee.wav", "lyinEyes.wav"];
-numFiles = length(audioNames);
+[rows, numFiles] = size(audioNames);
 
 %apply uniform quantize to the files
 for i = 1:numFiles
@@ -22,11 +25,11 @@ for i = 1:numFiles
 	
 	%plot the 4-bit quantized audio
         audio4BitData = uniformQuantizeAudio(audioData, 4);
-	%hold on; plot(t, audio4BitData),'b-');
+	hold on; plot(t, audio4BitData(1000:1200),'b-');
 	
 	%plot the 8-bit quantized audio
         audio8BitData = uniformQuantizeAudio(audioData, 8);
-	%hold on; plot(t, audio8BitData), 'g--');
+	hold on; plot(t, audio8BitData(1000:1200), 'g--');
 	
 	%finish setting up the plot
 	grid on; legend('original','4bit uniform quantized', '8bit uniform quantized')

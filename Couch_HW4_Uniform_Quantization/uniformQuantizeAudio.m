@@ -10,14 +10,16 @@
 
 function f = uniformQuantizeAudio(audioData, bitDepth)
 
-numSamples = length(audioData);
+[numSamples, cols] = size(audioData);
+
+%matrix of quantized audio data
+audioQuantized = zeros(numSamples, cols);
 
 %loop through each sample and quantize it to the proper bit depth
+levels = 2 ^ bitDepth; %number of levels in the audio
 for i = 1:numSamples
-    
+    sampleScaled = round(audioData(i) * levels / 2);
+    audioQuantized(i) = sampleScaled / levels * 2;
 end
 
-%
-audioQuantized
-
-f = rgbImg;
+f = audioQuantized;
