@@ -18,8 +18,17 @@ audioQuantized = zeros(numSamples, cols);
 %loop through each sample and quantize it to the proper bit depth
 levels = 2 ^ bitDepth; %number of levels in the audio
 for i = 1:numSamples
-    sampleScaled = round(audioData(i) * levels / 2);
-    audioQuantized(i) = sampleScaled / levels * 2;
+    %scale up the sample to range -levels to levels, then floor it
+    sampleScaled = floor(audioData(i) * levels / 2);
+    
+    %if the number didn't get floored, subtract one to get from the actual top level to where it should be, the top level minus one
+    if (sampleScaled == 1)
+        sampleScaled = sampleScaled - 1;
+    end
+    
+    %scale the sample back down to the proper divisions, then add the
+    %offset to fix the numbers to be how they're supposed to look
+    audioQuantized(i) = sampleScaled / levels * 2 + 1 / levels;
 end
 
 f = audioQuantized;
